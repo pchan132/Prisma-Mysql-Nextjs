@@ -1,36 +1,72 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# การใช้งาน Prisma กับ Mysql ใน Next.js
 
-## Getting Started
-
-First, run the development server:
+## เริ่มสร้างโปรเจค Next.js
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npx create-next-app@latest
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## ติดตั้ง Prisma ในโปรเจค
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm install prisma --save-dev
+npx install prisma
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## เริ่มสร้าง เข้าไป Config Prisma
 
-## Learn More
+> my-app/prisma/schema.prisma
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+  datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### ใช้ไฟล์ .env
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+```bash
+DATABASE_URL = mysql://USER:PASSWORD@HOST:PORT/DATABASE
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🎉เริ่มสร้าง ตาราง ด้วย Prisma
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Step 1 เพิ่ม ใน
+
+> my-app/prisma/schema.prisma
+
+```bash
+ model Name {
+  id        Int     @id  @default(autoincrement())
+  title     String
+  content   String?
+  createdAt DateTime @default(now())
+ }
+```
+
+> เป็นการสร้างตาราง
+
+---
+
+## Step 2 👏 เริ่มต้น prisma client
+
+```bash
+npx prisma genetate
+```
+
+## Step 3 เริ่มสร้างไฟล์ .sql
+
+เพื่อให้มันสามารถไปติดต่อกับฐานข้อมูลได้ ในการสร้าง ตาราง
+
+```bash
+ืืnpx prisma migrate dev --name <ชื่อ migrate>
+```
+
+คำสั่งนี้
+
+- จะสร้างไฟล์ migration ใหม่ใน folder `migrations` ของ Prisma ไฟล์นี้จะเก็บคำสั่ง SQL ไว้ (มีเวลาบอกด้วย)
+- คำสั่ง `--name <ชื่อ migragtion>` ใช้ตั้งชื่อ กับ migtations นั้นๆ
+  -หลังจากสร้างไฟล์ migration แล้ว คำสั่งนี้จะปรับใช้ migration ไปยังฐานข้อมูลโดยอัตโนมัติ ซึ่งจะทำการ updatee โครงสร้างฐานข้อมูลให้ตรงกับที่ระบุไว้ในไฟล์ schema.prisma เช่น การเพิ่มตารางใหม่, ปรับเปลี่ยนตารางเดิม หรือลบตาราง (migration จะวิเคราห์ออกมาผ่าน SQL ใน migration ให้เรียบร้อยแบบอัตโนมัติ)
