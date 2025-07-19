@@ -5,12 +5,15 @@
 */
 
 // จะใช้ prisma กับ API
-import { PrismaClient } from "@prisma/client/extension";
+import { PrismaClient } from "@prisma/client";
+
+// สร้าง Constaand ใหม่ให้เรียกใช้
+const prisma = new PrismaClient();
+//  ดึงข้อมูลทั้งหมด
 export async function GET() {
   try {
-    return Response.json({
-      message: "Test",
-    });
+    const data = await prisma.post.findMany();
+    return Response.json(data);
   } catch (error) {
     console.log("Error GET: ", error);
   }
@@ -22,14 +25,22 @@ export async function GET() {
     JavaScript (request)
 */
 
+// ส้รางข้อมูล 
 export async function POST(request: Request) {
-  const { content, title } = await request.json();
-  const newData = Response.json({
-    data: {
-      content,
-      title,
-    },
-  });
+  try {
+    const { content, title } = await request.json();
+    // สร้างข้อมูลอะไรบ้าง ให้ส่งไป
+    const newData = await prisma.post.create({
+      data: {
+        content,
+        title,
+      },
+    });
 
-  return newData;
+    return Response.json(newData);
+  } catch (error) {
+    return new Response(error as BodyInit, {
+      status: 500,
+    });
+  }
 }
