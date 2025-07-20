@@ -9,6 +9,7 @@ export default function Home() {
   // สร้างตัวแปร สำหรับเก็บ ข้อมูล Form โดยใช้ useState
   const [title, setTitle] = useState(""); // ('') ให้ค่าเริ่มต้นเป็น ค่าว่าง
   const [content, setContent] = useState(""); // ('') ให้ค่าเริ่มต้นเป็น ค่าว่าง
+  const [category, setCategory] = useState("");
   const router = useRouter(); // เมื่อเรียกใช้ Router
 
   // ฟังก์ชั่นเมื่อกดส่ง ข้อมูล
@@ -23,6 +24,7 @@ export default function Home() {
         // ใส่ข้อมูลที่จะส่ง
         title,
         content,
+        category,
       });
 
       //  เมื่อไม่มี ปัญหาอะไรในการส่งข้อมูลให้ ส่ง user ไปที่หน้า แรก
@@ -75,6 +77,13 @@ export default function Home() {
             className="p-2 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
           ></textarea>
         </div>
+        {/* category */}
+        <select value={category} onChange={(e) => setCategory(e.target.value)}>
+          <option value="">Select a category</option>
+          <option value="Tech">Tech</option>
+          <option value="Lifestyle">Lifestyle</option>
+        </select>
+        {/* Submit */}
         <div>
           <button
             type="submit"

@@ -9,6 +9,7 @@ export default function page({ params }: { params: { id: string } }) {
   const [post, setpost] = useState([]); // เก็บข้อมูลของ ID ที่ต้องการ
   const [title, setTitle] = useState(""); // เก็บข้อมูล title
   const [content, setContent] = useState(""); // เก็บข้อมูล content
+  const [category, setCategory] = useState("");
 
   const router = useRouter();
 
@@ -18,6 +19,8 @@ export default function page({ params }: { params: { id: string } }) {
       const res = await axios.get(`/api/post/${id}`);
       setTitle(res.data.title); // เอาข้อมูลที่ได้ไปใส่ใน ตัวแปร title
       setContent(res.data.content); // เอาข้อมูลที่ได้ไปใส่ใน ตัวแปร content
+      // เพิ่ม category
+      setCategory(res.data.category);
     } catch (error) {
       console.log("Error : ", error);
     }
@@ -32,6 +35,8 @@ export default function page({ params }: { params: { id: string } }) {
       const res = await axios.put(`/api/post/${id}`, {
         title,
         content,
+        //  ส่งไปอัพเดท
+        category,
       });
 
       // ส่ง user ไปที่ หน้า ตารางจัดการข้อมูล
@@ -51,7 +56,9 @@ export default function page({ params }: { params: { id: string } }) {
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
       <h1 className="text-2xl font-semibold mb-6">Edit Post {id}</h1>
-      <form className="space-y-6" onSubmit={handleSubmit}> // เข้า ฟังก์ handleSubmit
+      <form className="space-y-6" onSubmit={handleSubmit}>
+        {" "}
+        {/* // เข้า ฟังก์ handleSubmit */}
         <div>
           <label
             htmlFor="title"
@@ -86,6 +93,12 @@ export default function page({ params }: { params: { id: string } }) {
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
           ></textarea>
         </div>
+        {/* category */}
+        <select value={category} onChange={(e) => setCategory(e.target.value)}>
+          <option value="">Select a category</option>
+          <option value="Tech">Tech</option>
+          <option value="Lifestyle">Lifestyle</option>
+        </select>
         <div>
           <button
             type="submit"

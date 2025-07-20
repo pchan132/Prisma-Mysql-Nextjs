@@ -94,9 +94,11 @@ npx prisma migrate dev --name <ชื่อ migrate>
 # สร้างหน้า Form สำหรับกรอกข้อมูล Front-End
 
 ## ติดตั้ง axios สำหรับใช้เรียก ต่อกับ API
+
 ```bash
   npm install axios
 ```
+
 ```bash
  |-- app
       |--- create
@@ -105,4 +107,34 @@ npx prisma migrate dev --name <ชื่อ migrate>
       |--- page.tsx ---> เป็นหน้าสำหรับ แสดงตารางของข้อมูล
 ```
 
-# เริ่มสร้าง API สำหรับการ กรองข้อมูล
+# เริ่มสร้าง API สำหรับการ กรองข้อมูล filter sort ค้นหา Query กับ Prisma
+
+> เพิ่ม field `category`
+> my-prima-app>prisma>schema.prisma
+
+## step 2 และเพิ่ม migrations อีก version
+
+```bash
+npx migrate dev --name "ชื่อที่จะสร้าง"
+```
+
+# เริ่มทำ search หรือ ค้นหาข้อมูล กับ Mysql โดยใช้ prisma
+
+-ส่งผ่าน query params ตรงช่อง search หรือ URL
+
+> ตัวอย่างการค้นหาใน params หรือ URL
+
+```bash
+# ?search='ชื่อที่ค้นหา' & category="หมวดหมู่" & sort= 'การเรียงข้อมูล'
+/api/post?search=pchan&category=Tech&sort=asc 
+/api/post?search=pchan&category=Tech&sort=desc
+```
+asc = `ascending` เรียงจาก เก่าไปใหม่
+desc = `descending ` เรียงจาก ใหม่ไปเก่า
+
+## ทำการ ค้นหา sort filter แก้ไขใน method GET Back-end
+> /api/post/route.ts
+
+## 
+
+

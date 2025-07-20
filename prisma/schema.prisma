@@ -16,6 +16,12 @@ datasource db {
 model Post {
   id        Int     @id  @default(autoincrement())
   title     String
-  content   String?
+  content   String? //? คือ optional ใส่ก็ได้หรือไม่ใส่ก็ได้
+  category  String? //เอาไว้ filter ค้นหา sort ข้อมูล  // เพิ่ม field ตรงนี้มา โดยใส่ ? เป็น optional มา
   createdAt DateTime @default(now())
 }
+
+// --create-only สำหรับสร้าง migrations ออกมากก่อนและไปแก้ไฟล์ msql
+
+// !!!การทำให้ Prisma ใช้งานร่วมกับ utf8_general_ci (collation ที่ไม่สนตัวพิมพ์เล็ก-ใหญ่) 
+//!! จะช่วยให้การค้นหาแบบ contains ทำงานแบบไม่สน case โดย ไม่ต้องใช้ mode: "insensitive"

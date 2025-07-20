@@ -26,13 +26,15 @@ export async function PUT(
 ) {
   try {
     const postId = Number(params.id); // รับ ID ผ่าน params
-    const { title, content } = await request.json();
+    // เพิ่ม category ไป สำหรับการส่งข้อมูล
+    const { title, content, category } = await request.json();
     // where คือหา จาก อะไร
     const updatePost = await prisma.post.update({
       where: { id: postId }, // แก้ไขข้อมูล จาก ID
       data: {
         title,
         content,
+        category, // เพิ่ม
       },
     });
 
@@ -51,7 +53,7 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
-    const postId = Number(params.id);
+    const postId = Number(params.id); // รับ id จาก params
     // where คือลบจาก ID อะไร หรือ หาด้วยอะไรที่ไหนมี id
     const DeletePost = await prisma.post.delete({ where: { id: postId } });
 
@@ -62,4 +64,3 @@ export async function DELETE(
     });
   }
 }
-
