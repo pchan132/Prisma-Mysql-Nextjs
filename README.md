@@ -8,14 +8,14 @@ npx create-next-app@latest
 
 ## ติดตั้ง Prisma ในโปรเจค
 
-> สร้างไฟล์เริ่มต้น Schema
-```bash
-npx prisma init
-```
-
 ```bash
 npm install prisma --save-dev
 npm install @prisma/client
+```
+
+> สร้างไฟล์เริ่มต้น Schema
+```bash
+npx prisma init
 ```
 
 ## เริ่มสร้าง เข้าไป Config Prisma
