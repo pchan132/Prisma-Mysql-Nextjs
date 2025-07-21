@@ -55,7 +55,10 @@ DATABASE_URL = mysql://USER:PASSWORD@HOST:PORT/DATABASE
 > เป็นการสร้างตาราง
 
 ---
-
+*** ไม่มีสิทธิ์สร้าง database ใน MySQL server
+```bash
+npx prisma db push
+```
 ## Step 2 👏 เริ่มต้น prisma client
 
 ```bash
